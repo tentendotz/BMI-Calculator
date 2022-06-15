@@ -29,34 +29,24 @@ class CalculateViewController: UIViewController {
         let weight = String(format: "%.0f", sender.value)
         weightLabel.text = "\(weight)Kg"
     }
+
     
     @IBAction func calculatePressed(_ sender: UIButton) {
-        
         let height = heightSlider.value
         let weight = weightSlider.value
-        
-        calculateBMI(height: height, weight: weight)
+        calculatorBrain.calculateBMI(height: height, weight: weight)
         
         self.performSegue(withIdentifier: "goToResult", sender: self)
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToResult" {
             let destinationVC = segue.destination as! ResultViewController
-            destinationVC.bmiValue = calculatorBrain.value
+            destinationVC.bmiValue = calculatorBrain.getBMIValue()
         }
+        
     }
-    
-    func calculateBMI(height: Float, weight: Float) {
-        let bmiValue = weight / pow(height, 2)
-        calculatorBrain.value = getBMIValue(bmiValue)
-    }
-    
-    func getBMIValue(_ bmiValue: Float) -> String {
-        let bmiTo1DecimalPlace = String(format: "%.1f", bmiValue)
-        return bmiTo1DecimalPlace
-    }
-
 
 }
 
